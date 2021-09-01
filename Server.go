@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/kataras/iris/v12"
 	"github.com/spf13/viper"
 )
 
@@ -11,5 +12,7 @@ func init() {
 }
 
 func main() {
+	server := iris.New()
 
+	server.Listen(":"+Configs.GetString("port"),iris.WithLogLevel(Configs.GetString("log_level")))
 }
