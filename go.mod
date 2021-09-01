@@ -3,13 +3,23 @@ module snap
 go 1.16
 
 require (
+	github.com/CloudyKit/jet/v3 v3.0.0 // indirect
+	github.com/Joker/hpp v1.0.0 // indirect
 	github.com/ajg/form v1.5.1 // indirect
+	github.com/dgraph-io/badger v1.6.0 // indirect
+	github.com/etcd-io/bbolt v1.3.3 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/gavv/httpexpect v2.0.0+incompatible // indirect
+	github.com/gomodule/redigo v1.7.1-0.20190724094224-574c33c3df38 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/hashicorp/go-version v1.2.0 // indirect
 	github.com/imkira/go-interpol v1.1.0 // indirect
-	github.com/kataras/iris/v12 v12.1.8
+	github.com/iris-contrib/blackfriday v2.0.0+incompatible // indirect
+	github.com/iris-contrib/pongo2 v0.0.1 // indirect
+	github.com/kataras/iris/v12 v12.2.0-alpha2.0.20210717090056-b2cc3a287149
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/ryanuber/columnize v2.1.0+incompatible // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
