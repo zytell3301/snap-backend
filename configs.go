@@ -5,6 +5,10 @@ import (
 	"snap/Database/Redis"
 )
 
+/**
+ * TODO: Add an example file of every config with comments named like CONFIG_NAME.CONFIG_EXTENSION.example. e.g Redis.yaml.example OR Server.yaml.example
+ */
+
 func initiateConfigs() {
 	initiateServerConfigs()
 	initiateRedisConfigs()
