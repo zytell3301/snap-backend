@@ -16,122 +16,122 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// LocationReportClient is the client API for LocationReport service.
+// DriversLocationReportClient is the client API for DriversLocationReport service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type LocationReportClient interface {
+type DriversLocationReportClient interface {
 	UpdateLocation(ctx context.Context, in *Location, opts ...grpc.CallOption) (*wrappers.BoolValue, error)
 	Deactivate(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*wrappers.BoolValue, error)
 }
 
-type locationReportClient struct {
+type driversLocationReportClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewLocationReportClient(cc grpc.ClientConnInterface) LocationReportClient {
-	return &locationReportClient{cc}
+func NewDriversLocationReportClient(cc grpc.ClientConnInterface) DriversLocationReportClient {
+	return &driversLocationReportClient{cc}
 }
 
-func (c *locationReportClient) UpdateLocation(ctx context.Context, in *Location, opts ...grpc.CallOption) (*wrappers.BoolValue, error) {
+func (c *driversLocationReportClient) UpdateLocation(ctx context.Context, in *Location, opts ...grpc.CallOption) (*wrappers.BoolValue, error) {
 	out := new(wrappers.BoolValue)
-	err := c.cc.Invoke(ctx, "/GrpcServices.LocationReport/UpdateLocation", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GrpcServices.DriversLocationReport/UpdateLocation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *locationReportClient) Deactivate(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*wrappers.BoolValue, error) {
+func (c *driversLocationReportClient) Deactivate(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*wrappers.BoolValue, error) {
 	out := new(wrappers.BoolValue)
-	err := c.cc.Invoke(ctx, "/GrpcServices.LocationReport/Deactivate", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GrpcServices.DriversLocationReport/Deactivate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// LocationReportServer is the server API for LocationReport service.
-// All implementations must embed UnimplementedLocationReportServer
+// DriversLocationReportServer is the server API for DriversLocationReport service.
+// All implementations must embed UnimplementedDriversLocationReportServer
 // for forward compatibility
-type LocationReportServer interface {
+type DriversLocationReportServer interface {
 	UpdateLocation(context.Context, *Location) (*wrappers.BoolValue, error)
 	Deactivate(context.Context, *empty.Empty) (*wrappers.BoolValue, error)
-	mustEmbedUnimplementedLocationReportServer()
+	mustEmbedUnimplementedDriversLocationReportServer()
 }
 
-// UnimplementedLocationReportServer must be embedded to have forward compatible implementations.
-type UnimplementedLocationReportServer struct {
+// UnimplementedDriversLocationReportServer must be embedded to have forward compatible implementations.
+type UnimplementedDriversLocationReportServer struct {
 }
 
-func (UnimplementedLocationReportServer) UpdateLocation(context.Context, *Location) (*wrappers.BoolValue, error) {
+func (UnimplementedDriversLocationReportServer) UpdateLocation(context.Context, *Location) (*wrappers.BoolValue, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateLocation not implemented")
 }
-func (UnimplementedLocationReportServer) Deactivate(context.Context, *empty.Empty) (*wrappers.BoolValue, error) {
+func (UnimplementedDriversLocationReportServer) Deactivate(context.Context, *empty.Empty) (*wrappers.BoolValue, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Deactivate not implemented")
 }
-func (UnimplementedLocationReportServer) mustEmbedUnimplementedLocationReportServer() {}
+func (UnimplementedDriversLocationReportServer) mustEmbedUnimplementedDriversLocationReportServer() {}
 
-// UnsafeLocationReportServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to LocationReportServer will
+// UnsafeDriversLocationReportServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DriversLocationReportServer will
 // result in compilation errors.
-type UnsafeLocationReportServer interface {
-	mustEmbedUnimplementedLocationReportServer()
+type UnsafeDriversLocationReportServer interface {
+	mustEmbedUnimplementedDriversLocationReportServer()
 }
 
-func RegisterLocationReportServer(s grpc.ServiceRegistrar, srv LocationReportServer) {
-	s.RegisterService(&LocationReport_ServiceDesc, srv)
+func RegisterDriversLocationReportServer(s grpc.ServiceRegistrar, srv DriversLocationReportServer) {
+	s.RegisterService(&DriversLocationReport_ServiceDesc, srv)
 }
 
-func _LocationReport_UpdateLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DriversLocationReport_UpdateLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Location)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LocationReportServer).UpdateLocation(ctx, in)
+		return srv.(DriversLocationReportServer).UpdateLocation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/GrpcServices.LocationReport/UpdateLocation",
+		FullMethod: "/GrpcServices.DriversLocationReport/UpdateLocation",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LocationReportServer).UpdateLocation(ctx, req.(*Location))
+		return srv.(DriversLocationReportServer).UpdateLocation(ctx, req.(*Location))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LocationReport_Deactivate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DriversLocationReport_Deactivate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LocationReportServer).Deactivate(ctx, in)
+		return srv.(DriversLocationReportServer).Deactivate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/GrpcServices.LocationReport/Deactivate",
+		FullMethod: "/GrpcServices.DriversLocationReport/Deactivate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LocationReportServer).Deactivate(ctx, req.(*empty.Empty))
+		return srv.(DriversLocationReportServer).Deactivate(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// LocationReport_ServiceDesc is the grpc.ServiceDesc for LocationReport service.
+// DriversLocationReport_ServiceDesc is the grpc.ServiceDesc for DriversLocationReport service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var LocationReport_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "GrpcServices.LocationReport",
-	HandlerType: (*LocationReportServer)(nil),
+var DriversLocationReport_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "GrpcServices.DriversLocationReport",
+	HandlerType: (*DriversLocationReportServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "UpdateLocation",
-			Handler:    _LocationReport_UpdateLocation_Handler,
+			Handler:    _DriversLocationReport_UpdateLocation_Handler,
 		},
 		{
 			MethodName: "Deactivate",
-			Handler:    _LocationReport_Deactivate_Handler,
+			Handler:    _DriversLocationReport_Deactivate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

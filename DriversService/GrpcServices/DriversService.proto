@@ -4,7 +4,7 @@ option go_package = "./GrpcServices";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 
-service LocationReport {
+service DriversLocationReport {
   rpc UpdateLocation(location) returns (google.protobuf.BoolValue);
   rpc Deactivate(google.protobuf.Empty) returns (google.protobuf.BoolValue);
 }
