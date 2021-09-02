@@ -1,0 +1,15 @@
+syntax = "proto3";
+package GrpcServices;
+option go_package = "./GrpcServices";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+service LocationReport {
+  rpc UpdateLocation(location) returns (google.protobuf.BoolValue);
+  rpc Deactivate(google.protobuf.Empty) returns (google.protobuf.BoolValue);
+}
+
+message location {
+  float x = 1;
+  float y = 2;
+}
