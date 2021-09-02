@@ -1,9 +1,13 @@
 package main
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+	"snap/Database/Redis"
+)
 
 func initiateConfigs() {
 	initiateServerConfigs()
+	initiateRedisConfigs()
 }
 
 func initiateConfig(name string,directory string,configType string) *viper.Viper {
@@ -24,4 +28,16 @@ func initiateServerConfigs() {
 	}
 
 	Configs = cfg
+}
+
+func initiateRedisConfigs(){
+	cfg := initiateConfig("Redis","./Configs","yaml")
+	err := cfg.ReadInConfig()
+
+	switch err != nil {
+	case true:
+		panic(err)
+	}
+
+	Redis.Configs = cfg
 }
