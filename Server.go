@@ -9,6 +9,7 @@ var Configs *viper.Viper
 
 func init() {
 	initiateConfigs()
+	initiatePackages()
 }
 
 func main() {
