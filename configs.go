@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/spf13/viper"
 	"snap/Database/Redis"
+	"snap/DriversService"
 )
 
 /**
@@ -12,6 +13,7 @@ import (
 func initiateConfigs() {
 	initiateServerConfigs()
 	initiateRedisConfigs()
+	initiateGrpcConfigs()
 }
 
 func initiateConfig(name string,directory string,configType string) *viper.Viper {
@@ -44,4 +46,16 @@ func initiateRedisConfigs(){
 	}
 
 	Redis.Configs = cfg
+}
+
+func initiateGrpcConfigs() {
+	cfg := initiateConfig("Grpc","./Configs","yaml")
+	err := cfg.ReadInConfig()
+
+	switch err != nil {
+	case true:
+		panic(err)
+	}
+
+	DriversService.Configs = cfg
 }
