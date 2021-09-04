@@ -1,6 +1,7 @@
 package main
 
 import (
+	"snap/Database/Cassandra/Keyspaces"
 	"snap/Database/Redis"
 	"snap/Database/Uuid"
 )
@@ -8,4 +9,5 @@ import (
 func initiatePackages() {
 	Redis.InitiateRedis()
 	Uuid.InitSpace()
+	Keyspaces.InitiateKeyspaces()
 }
