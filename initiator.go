@@ -2,8 +2,10 @@ package main
 
 import (
 	"snap/Database/Redis"
+	"snap/Database/Uuid"
 )
 
-func initiatePackages(){
+func initiatePackages() {
 	Redis.InitiateRedis()
+	Uuid.InitSpace()
 }
