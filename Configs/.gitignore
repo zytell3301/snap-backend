@@ -2,3 +2,4 @@ Server.yaml
 Redis.yaml
 Grpc.yaml
 Uuid.yaml
+Cassandra.yaml
