@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/spf13/viper"
 	"snap/Database/Redis"
+	"snap/Database/Uuid"
 	"snap/DriversService"
 )
 
@@ -14,9 +15,10 @@ func initiateConfigs() {
 	initiateServerConfigs()
 	initiateRedisConfigs()
 	initiateGrpcConfigs()
+	initiateUuidConfigs()
 }
 
-func initiateConfig(name string,directory string,configType string) *viper.Viper {
+func initiateConfig(name string, directory string, configType string) *viper.Viper {
 	cfg := viper.New()
 	cfg.AddConfigPath(directory)
 	cfg.SetConfigName(name)
@@ -25,7 +27,7 @@ func initiateConfig(name string,directory string,configType string) *viper.Viper
 }
 
 func initiateServerConfigs() {
-	cfg := initiateConfig("Server","./Configs","yaml")
+	cfg := initiateConfig("Server", "./Configs", "yaml")
 	err := cfg.ReadInConfig()
 
 	switch err != nil {
@@ -36,8 +38,8 @@ func initiateServerConfigs() {
 	Configs = cfg
 }
 
-func initiateRedisConfigs(){
-	cfg := initiateConfig("Redis","./Configs","yaml")
+func initiateRedisConfigs() {
+	cfg := initiateConfig("Redis", "./Configs", "yaml")
 	err := cfg.ReadInConfig()
 
 	switch err != nil {
@@ -49,7 +51,7 @@ func initiateRedisConfigs(){
 }
 
 func initiateGrpcConfigs() {
-	cfg := initiateConfig("Grpc","./Configs","yaml")
+	cfg := initiateConfig("Grpc", "./Configs", "yaml")
 	err := cfg.ReadInConfig()
 
 	switch err != nil {
@@ -58,4 +60,16 @@ func initiateGrpcConfigs() {
 	}
 
 	DriversService.Configs = cfg
+}
+
+func initiateUuidConfigs() {
+	cfg := initiateConfig("Uuid", "./Configs", "yaml")
+	err := cfg.ReadInConfig()
+
+	switch err != nil {
+	case true:
+		panic(err)
+	}
+
+	Uuid.Configs = cfg
 }
