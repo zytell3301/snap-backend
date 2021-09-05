@@ -18,7 +18,7 @@ func InitiateGrpcServices() {
 		panic(err)
 	}
 
-	server := grpc.NewServer()
+	server := grpc.NewServer((grpc.WithUnaryInterceptor(DriversLocationService.Authenticate)).(grpc.ServerOption))
 
 	GrpcServices.RegisterDriversLocationReportServer(server, &DriversLocationService.DriversLocationService{})
 
@@ -29,3 +29,4 @@ func InitiateGrpcServices() {
 		panic(err)
 	}
 }
+
