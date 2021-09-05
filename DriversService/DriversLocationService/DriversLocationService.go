@@ -2,8 +2,10 @@ package DriversLocationService
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-redis/redis/v8"
 	"github.com/golang/protobuf/ptypes/wrappers"
+	"google.golang.org/grpc"
 	"snap/Database/Redis"
 	"snap/DriversService/GrpcServices"
 )
@@ -18,4 +20,10 @@ func (DriversLocationService) UpdateLocation(_ context.Context, location *GrpcSe
 		Latitude:  location.Y,
 	})
 	return nil, nil
+}
+
+
+func Authenticate(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	fmt.Println("Interceptor called")
+	return nil
 }
