@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/spf13/viper"
+	"snap/Database/Cassandra"
 	"snap/Database/Redis"
 	"snap/Database/Uuid"
 	"snap/DriversService"
@@ -16,6 +17,7 @@ func initiateConfigs() {
 	initiateRedisConfigs()
 	initiateGrpcConfigs()
 	initiateUuidConfigs()
+	initiateCassandraConfigs()
 }
 
 func initiateConfig(name string, directory string, configType string) *viper.Viper {
@@ -72,4 +74,16 @@ func initiateUuidConfigs() {
 	}
 
 	Uuid.Configs = cfg
+}
+
+func initiateCassandraConfigs() {
+	cfg := initiateConfig("Cassandra", "./Configs", "yaml")
+	err := cfg.ReadInConfig()
+
+	switch err != nil {
+	case true:
+		panic(err)
+	}
+
+	Cassandra.Configs = cfg
 }
