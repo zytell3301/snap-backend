@@ -19,9 +19,8 @@ func (DriversLocationService) UpdateLocation(_ context.Context, location *GrpcSe
 		Longitude: location.X,
 		Latitude:  location.Y,
 	})
-	return nil, nil
+	return &wrappers.BoolValue{}, nil
 }
-
 
 func Authenticate(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 	fmt.Println("Interceptor called")
