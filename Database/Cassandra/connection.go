@@ -109,17 +109,28 @@ func (metaData *TableMetaData) NewRecord(values map[string]interface{}, batch *g
 	return true
 }
 
-func (metaData *TableMetaData) GetRecord(conditions map[string]interface{}, selectedFields []string) (data map[string]interface{}) {
+func (metaData *TableMetaData) GetSelectStatement(conditions map[string]interface{}, selectedFields []string) (statement *gocql.Query) {
 	switch CheckData(&conditions, *metaData) {
 	case false:
 		return
 	}
 
-	data = make(map[string]interface{})
-
 	session := metaData.Connection
 	Args, fields := BindArgs(conditions)
-	statement := bindValues(session.Query("SELECT "+strings.Join(selectedFields, ",")+" FROM "+metaData.Table+" WHERE "+GenerateWhereConditions(fields)), Args)
+	statement = bindValues(session.Query("SELECT "+strings.Join(selectedFields, ",")+" FROM "+metaData.Table+" WHERE "+GenerateWhereConditions(fields)), Args)
+
+	return
+}
+
+func (metaData *TableMetaData) GetRecord(conditions map[string]interface{}, selectedFields []string) (data map[string]interface{}) {
+	data = make(map[string]interface{})
+
+	statement := metaData.GetSelectStatement(conditions,selectedFields)
+	switch statement == nil {
+	case true:
+		return
+	}
+
 	statement.MapScan(data)
 
 	return
