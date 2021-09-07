@@ -8,8 +8,8 @@ import (
 
 type Token struct {
 	Cassandra.TableMetaData
-	communication_token string
-	user_id             gocql.UUID
+	Communication_token string
+	User_id             gocql.UUID
 }
 
 var Tokens = Token{
