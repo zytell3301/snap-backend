@@ -2,12 +2,15 @@ package DriversLocationService
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"github.com/go-redis/redis/v8"
 	"github.com/golang/protobuf/ptypes/wrappers"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
+	"snap/Database/Cassandra/Models"
 	"snap/Database/Redis"
 	"snap/DriversService/GrpcServices"
+	"strings"
 )
 
 type DriversLocationService struct {
@@ -22,7 +25,22 @@ func (DriversLocationService) UpdateLocation(_ context.Context, location *GrpcSe
 	return &wrappers.BoolValue{}, nil
 }
 
-func Authenticate(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-	fmt.Println("Interceptor called")
-	return nil
+func Authenticate(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+	md, success := metadata.FromIncomingContext(ctx)
+	communicationToken := strings.Join(md.Get("communicationToken"), "")
+
+	switch success == false || communicationToken == "" {
+	case true:
+		return nil, errors.New("an error occurred while extracting metadata. please make sure that context is passed correctly and a valid communicationToken is supplied")
+	}
+
+	token, err := Models.Tokens.GetToken(communicationToken)
+	switch err != nil || token.Communication_token == "" {
+	case true:
+		return nil, errors.New("an error occurred while validating supplied token")
+	default:
+		md.Set("user_id",token.User_id.String())
+	}
+
+	return handler(metadata.NewOutgoingContext(ctx, md), req)
 }
