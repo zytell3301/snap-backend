@@ -32,7 +32,7 @@ func (t Token) GetToken(communicationToken string) (token *Token, err error) {
 		return token, errors.New("an error occurred while creating query statement. Probable wrong argument supplied")
 	}
 
-	statement.Scan(&token.communication_token, &token.user_id)
+	statement.Scan(&token.Communication_token, &token.User_id)
 
 	return
 }
