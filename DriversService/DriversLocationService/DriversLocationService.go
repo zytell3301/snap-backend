@@ -3,7 +3,6 @@ package DriversLocationService
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/go-redis/redis/v8"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/golang/protobuf/ptypes/wrappers"
@@ -28,8 +27,6 @@ func (DriversLocationService) UpdateLocation(_ context.Context, location *GrpcSe
 }
 
 func (DriversLocationService) Deactivate(ctx context.Context, _ *empty.Empty) (*wrappers.BoolValue, error) {
-	md, err := metadata.FromIncomingContext(ctx)
-
 	return &wrappers.BoolValue{}, nil
 }
 
