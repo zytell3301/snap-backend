@@ -18,12 +18,21 @@ type DriversLocationService struct {
 	GrpcServices.UnimplementedDriversLocationReportServer
 }
 
-func (DriversLocationService) UpdateLocation(_ context.Context, location *GrpcServices.Location) (*wrappers.BoolValue, error) {
+func (DriversLocationService) UpdateLocation(ctx context.Context, location *GrpcServices.Location) (*wrappers.BoolValue, error) {
+	md, isSuccess := metadata.FromIncomingContext(ctx)
+
+	switch isSuccess == false {
+	case true:
+		return &wrappers.BoolValue{}, errors.New("failed to extract context metadata")
+	}
+
 	Redis.Connection.GeoAdd(context.Background(), "drivers-positions", &redis.GeoLocation{
+		Name:      strings.Join(md.Get("user_id"), ""),
 		Longitude: location.X,
 		Latitude:  location.Y,
 	})
-	return &wrappers.BoolValue{}, nil
+
+	return &wrappers.BoolValue{Value: true}, nil
 }
 
 func (DriversLocationService) Deactivate(ctx context.Context, _ *empty.Empty) (*wrappers.BoolValue, error) {
