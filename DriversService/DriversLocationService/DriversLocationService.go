@@ -36,6 +36,15 @@ func (DriversLocationService) UpdateLocation(ctx context.Context, location *Grpc
 }
 
 func (DriversLocationService) Deactivate(ctx context.Context, _ *empty.Empty) (*wrappers.BoolValue, error) {
+	md, isSuccess := metadata.FromIncomingContext(ctx)
+
+	switch isSuccess == false {
+	case true:
+		return &wrappers.BoolValue{}, errors.New("failed to extract context metadata")
+	}
+
+	Redis.Connection.ZRem(ctx, "drivers-positions", strings.Join(md.Get("user_id"), ""))
+
 	return &wrappers.BoolValue{}, nil
 }
 
