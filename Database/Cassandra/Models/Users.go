@@ -7,11 +7,11 @@ import (
 )
 
 type Driver struct {
-	name        string
-	lastname    string
-	vehicle_no  string
-	balance     int
-	profile_pic string
+	Name        string `cql:"name"`
+	Lastname    string `cql:"lastname"`
+	Vehicle_no  string `cql:vehicle_no`
+	Balance     int    `cql:"balance"`
+	Profile_pic string `cql:"profile_pic`
 }
 
 type User struct {
