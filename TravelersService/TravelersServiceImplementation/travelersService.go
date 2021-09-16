@@ -3,7 +3,6 @@ package TravelersServiceImplementation
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/go-redis/redis/v8"
 	"github.com/golang/protobuf/ptypes/empty"
 	"snap/Database/Cassandra/Models"
@@ -28,13 +27,15 @@ func (TravelersService) GetNearbyDrivers(ctx context.Context, location *GrpcServ
 		return &empty.Empty{}, errors.New("no driver found")
 	}
 
-	var drivers []*Models.Driver
+	var drivers []Models.User
 
 	for _, driverLocation := range driversLocation {
-		drivers = append(drivers, Models.Users.GetDriverDetails(map[string]interface{}{"id": driverLocation.Name}))
+		driver, err := Models.Users.GetDriverDetails(map[string]interface{}{"id": driverLocation.Name})
+		switch err != nil {
+		case false:
+			drivers = append(drivers, driver)
+		}
 	}
-
-	fmt.Println(drivers)
 
 	return &empty.Empty{}, nil
 }
