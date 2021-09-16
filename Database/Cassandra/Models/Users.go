@@ -38,9 +38,9 @@ var Users = User{
 	},
 }
 
-func (u User) GetDriverDetails(conditions map[string]interface{}) (driver Driver,err error) {
-	statement := u.GetSelectStatement(conditions, []string{"driver_details"})
-	err = statement.Scan(&driver)
+func (u User) GetDriverDetails(conditions map[string]interface{}) (user User,err error) {
+	statement := u.GetSelectStatement(conditions, []string{"id","driver_details"})
+	err = statement.Scan(&user.id,&user.driver_details)
 
 	return
 }
