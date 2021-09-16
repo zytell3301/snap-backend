@@ -9,9 +9,9 @@ import (
 type Driver struct {
 	Name        string `cql:"name"`
 	Lastname    string `cql:"lastname"`
-	Vehicle_no  string `cql:vehicle_no`
+	Vehicle_no  string `cql:"vehicle_no"`
 	Balance     int    `cql:"balance"`
-	Profile_pic string `cql:"profile_pic`
+	Profile_pic string `cql:"profile_pic"`
 }
 
 type User struct {
@@ -36,4 +36,11 @@ var Users = User{
 		Pk:       map[string]struct{}{"id": {}},
 		Keyspace: "snap",
 	},
+}
+
+func (u User) GetDriverDetails(conditions map[string]interface{}) (driver Driver,err error) {
+	statement := u.GetSelectStatement(conditions, []string{"driver_details"})
+	err = statement.Scan(&driver)
+
+	return
 }
