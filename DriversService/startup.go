@@ -6,6 +6,8 @@ import (
 	"net"
 	"snap/DriversService/DriversLocationService"
 	"snap/DriversService/GrpcServices"
+	GrpcServices2 "snap/TravelersService/GrpcServices"
+	"snap/TravelersService/TravelersServiceImplementation"
 )
 
 var Configs *viper.Viper
@@ -21,6 +23,7 @@ func InitiateGrpcServices() {
 	server := grpc.NewServer(grpc.UnaryInterceptor(DriversLocationService.Authenticate))
 
 	GrpcServices.RegisterDriversLocationReportServer(server, &DriversLocationService.DriversLocationService{})
+	GrpcServices2.RegisterTravelersServiceServer(server, &TravelersServiceImplementation.TravelersService{})
 
 	err = server.Serve(listener)
 
