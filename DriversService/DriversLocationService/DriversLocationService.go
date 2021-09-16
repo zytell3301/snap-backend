@@ -43,9 +43,9 @@ func (DriversLocationService) Deactivate(ctx context.Context, _ *empty.Empty) (*
 		return &wrappers.BoolValue{}, errors.New("failed to extract context metadata")
 	}
 
-	Redis.Connection.ZRem(ctx, "drivers-positions", strings.Join(md.Get("user_id"), ""))
+	result := Redis.Connection.ZRem(ctx, "drivers-positions", strings.Join(md.Get("user_id"), ""))
 
-	return &wrappers.BoolValue{}, nil
+	return &wrappers.BoolValue{}, result.Err()
 }
 
 func Authenticate(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
