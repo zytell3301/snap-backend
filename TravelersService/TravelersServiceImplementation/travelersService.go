@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"github.com/go-redis/redis/v8"
-	"github.com/golang/protobuf/ptypes/empty"
 	"snap/Database/Cassandra/Models"
 	"snap/Database/Redis"
 	"snap/TravelersService/GrpcServices"
@@ -14,17 +13,17 @@ type TravelersService struct {
 	GrpcServices.UnimplementedTravelersServiceServer
 }
 
-func (TravelersService) GetNearbyDrivers(ctx context.Context, location *GrpcServices.Location) (*empty.Empty, error) {
+func (TravelersService) GetNearbyDrivers(ctx context.Context, location *GrpcServices.Location) (*GrpcServices.GetNearbyDriversResponse, error) {
 	driversLocation, err := getNearbyDrivers(ctx, location)
 
 	switch err != nil {
 	case true:
-		return &empty.Empty{}, err
+		return &GrpcServices.GetNearbyDriversResponse{}, err
 	}
 
 	switch len(driversLocation) == 0 {
 	case true:
-		return &empty.Empty{}, errors.New("no driver found")
+		return &GrpcServices.GetNearbyDriversResponse{}, errors.New("no driver found")
 	}
 
 	var drivers []Models.User
@@ -37,7 +36,7 @@ func (TravelersService) GetNearbyDrivers(ctx context.Context, location *GrpcServ
 		}
 	}
 
-	return &empty.Empty{}, nil
+	return &GrpcServices.GetNearbyDriversResponse{}, nil
 }
 
 func getNearbyDrivers(ctx context.Context, location *GrpcServices.Location) ([]redis.GeoLocation, error) {
