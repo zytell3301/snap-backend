@@ -1,13 +1,29 @@
 syntax = "proto3";
 package TravelersService;
 option go_package = "./GrpcServices";
-import "google/protobuf/empty.proto";
 
 service TravelersService {
-  rpc GetNearbyDrivers(location) returns (google.protobuf.Empty);
+  rpc GetNearbyDrivers(location) returns (GetNearbyDriversResponse);
+}
+
+message GetNearbyDriversResponse {
+  repeated user user = 1;
 }
 
 message location {
   double x = 1;
   double y = 2;
+}
+
+message user {
+  string id = 1;
+  driver driver_details = 2;
+}
+
+message driver {
+  string name = 1;
+  string lastname = 2;
+  string vehicle_no = 3;
+  uint32 balance = 4;
+  string profile_pic = 5;
 }

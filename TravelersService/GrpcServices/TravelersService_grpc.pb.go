@@ -4,7 +4,6 @@ package GrpcServices
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TravelersServiceClient interface {
-	GetNearbyDrivers(ctx context.Context, in *Location, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetNearbyDrivers(ctx context.Context, in *Location, opts ...grpc.CallOption) (*GetNearbyDriversResponse, error)
 }
 
 type travelersServiceClient struct {
@@ -30,8 +29,8 @@ func NewTravelersServiceClient(cc grpc.ClientConnInterface) TravelersServiceClie
 	return &travelersServiceClient{cc}
 }
 
-func (c *travelersServiceClient) GetNearbyDrivers(ctx context.Context, in *Location, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *travelersServiceClient) GetNearbyDrivers(ctx context.Context, in *Location, opts ...grpc.CallOption) (*GetNearbyDriversResponse, error) {
+	out := new(GetNearbyDriversResponse)
 	err := c.cc.Invoke(ctx, "/TravelersService.TravelersService/GetNearbyDrivers", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,7 +42,7 @@ func (c *travelersServiceClient) GetNearbyDrivers(ctx context.Context, in *Locat
 // All implementations must embed UnimplementedTravelersServiceServer
 // for forward compatibility
 type TravelersServiceServer interface {
-	GetNearbyDrivers(context.Context, *Location) (*empty.Empty, error)
+	GetNearbyDrivers(context.Context, *Location) (*GetNearbyDriversResponse, error)
 	mustEmbedUnimplementedTravelersServiceServer()
 }
 
@@ -51,7 +50,7 @@ type TravelersServiceServer interface {
 type UnimplementedTravelersServiceServer struct {
 }
 
-func (UnimplementedTravelersServiceServer) GetNearbyDrivers(context.Context, *Location) (*empty.Empty, error) {
+func (UnimplementedTravelersServiceServer) GetNearbyDrivers(context.Context, *Location) (*GetNearbyDriversResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNearbyDrivers not implemented")
 }
 func (UnimplementedTravelersServiceServer) mustEmbedUnimplementedTravelersServiceServer() {}
