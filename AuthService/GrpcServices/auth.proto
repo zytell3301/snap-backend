@@ -1,0 +1,16 @@
+syntax = "proto3";
+package AuthService;
+option go_package = "./GrpcServices";
+
+service Auth {
+  rpc Authenticate (Credentials) returns (Token);
+}
+
+message Credentials {
+  string phone = 1;
+  string password = 2;
+}
+
+message Token {
+  string token = 1;
+}
