@@ -18,6 +18,7 @@ type User struct {
 	Cassandra.TableMetaData
 	Id             gocql.UUID
 	Phone          string
+	Password       string
 	Balance        int
 	Driver_details Driver
 	Created_at     time.Time
@@ -38,9 +39,9 @@ var Users = User{
 	},
 }
 
-func (u User) GetDriverDetails(conditions map[string]interface{}) (user User,err error) {
-	statement := u.GetSelectStatement(conditions, []string{"Id","Driver_details"})
-	err = statement.Scan(&user.Id,&user.Driver_details)
+func (u User) GetDriverDetails(conditions map[string]interface{}) (user User, err error) {
+	statement := u.GetSelectStatement(conditions, []string{"Id", "Driver_details"})
+	err = statement.Scan(&user.Id, &user.Driver_details)
 
 	return
 }
