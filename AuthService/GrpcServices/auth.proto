@@ -17,8 +17,9 @@ message Token {
 }
 
 message user {
-  string id = 1;
+  string phone = 1;
   driver driver_details = 2;
+  string password = 3;
 }
 
 message driver {
