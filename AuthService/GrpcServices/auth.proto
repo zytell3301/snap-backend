@@ -4,6 +4,7 @@ option go_package = "./GrpcServices";
 
 service Auth {
   rpc Authenticate (Credentials) returns (Token);
+  rpc NewAccount(user) returns (Token);
 }
 
 message Credentials {
@@ -13,4 +14,17 @@ message Credentials {
 
 message Token {
   string token = 1;
+}
+
+message user {
+  string id = 1;
+  driver driver_details = 2;
+}
+
+message driver {
+  string name = 1;
+  string lastname = 2;
+  string vehicle_no = 3;
+  uint32 balance = 4;
+  string profile_pic = 5;
 }
