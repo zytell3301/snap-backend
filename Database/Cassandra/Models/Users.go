@@ -2,6 +2,7 @@ package Models
 
 import (
 	"github.com/gocql/gocql"
+	"golang.org/x/crypto/bcrypt"
 	"snap/Database/Cassandra"
 	"time"
 )
@@ -44,4 +45,34 @@ func (u User) GetDriverDetails(conditions map[string]interface{}) (user User, er
 	err = statement.Scan(&user.Id, &user.Driver_details)
 
 	return
+}
+
+func (u User) NewUser(user User) error {
+	usr := map[string]interface{}{}
+	password, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+
+	switch err != nil {
+	case true:
+		return err
+	}
+
+	usr["id"] = user.Id.String()
+	usr["balance"] = 0
+	usr["phone"] = user.Phone
+	usr["password"] = string(password)
+	usr["driver_details"] = user.Driver_details
+	usr["created_at"] = time.Now()
+
+	batch := Users.Connection.NewBatch(gocql.LoggedBatch)
+
+	userPkPhone := map[string]interface{}{}
+	userPkPhone["phone"] = usr["phone"]
+	userPkPhone["id"] = usr["id"]
+	userPkPhone["password"] = usr["password"]
+
+	UserPkPhone.NewRecord(userPkPhone, batch)
+
+	err = u.Connection.ExecuteBatch(batch)
+
+	return err
 }
