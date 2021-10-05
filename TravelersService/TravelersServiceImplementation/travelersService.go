@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/go-redis/redis/v8"
+	"math"
 	"snap/Database/Redis"
 	"snap/TravelersService/GrpcServices"
 )
@@ -38,6 +39,18 @@ func (TravelersService) GetNearbyDrivers(ctx context.Context, location *GrpcServ
 	}
 
 	return &GrpcServices.GetNearbyDriversResponse{Driver: drivers}, nil
+}
+
+func (TravelersService) GetPrice(ctx context.Context, direction *GrpcServices.Direction) (*GrpcServices.Price, error) {
+	price := math.Sqrt(math.Pow(direction.Origin.X-direction.Destination.X, 2)+math.Pow(direction.Origin.Y-direction.Destination.Y, 2)) * 350000
+	remainder := math.Remainder(price, 500)
+
+	switch remainder < 250 {
+	case true:
+		return &GrpcServices.Price{Price: int32(price - remainder)}, nil
+	default:
+		return &GrpcServices.Price{Price: int32(price - remainder + 500)}, nil
+	}
 }
 
 func getNearbyDrivers(ctx context.Context, location *GrpcServices.Location) ([]redis.GeoLocation, error) {
