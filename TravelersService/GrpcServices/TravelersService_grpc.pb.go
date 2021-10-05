@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type TravelersServiceClient interface {
 	GetNearbyDrivers(ctx context.Context, in *Location, opts ...grpc.CallOption) (*GetNearbyDriversResponse, error)
 	GetPrice(ctx context.Context, in *Direction, opts ...grpc.CallOption) (*Price, error)
+	RequestDriver(ctx context.Context, in *Direction, opts ...grpc.CallOption) (*Driver, error)
 }
 
 type travelersServiceClient struct {
@@ -48,12 +49,22 @@ func (c *travelersServiceClient) GetPrice(ctx context.Context, in *Direction, op
 	return out, nil
 }
 
+func (c *travelersServiceClient) RequestDriver(ctx context.Context, in *Direction, opts ...grpc.CallOption) (*Driver, error) {
+	out := new(Driver)
+	err := c.cc.Invoke(ctx, "/TravelersService.TravelersService/RequestDriver", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TravelersServiceServer is the server API for TravelersService service.
 // All implementations must embed UnimplementedTravelersServiceServer
 // for forward compatibility
 type TravelersServiceServer interface {
 	GetNearbyDrivers(context.Context, *Location) (*GetNearbyDriversResponse, error)
 	GetPrice(context.Context, *Direction) (*Price, error)
+	RequestDriver(context.Context, *Direction) (*Driver, error)
 	mustEmbedUnimplementedTravelersServiceServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedTravelersServiceServer) GetNearbyDrivers(context.Context, *Lo
 }
 func (UnimplementedTravelersServiceServer) GetPrice(context.Context, *Direction) (*Price, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPrice not implemented")
+}
+func (UnimplementedTravelersServiceServer) RequestDriver(context.Context, *Direction) (*Driver, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestDriver not implemented")
 }
 func (UnimplementedTravelersServiceServer) mustEmbedUnimplementedTravelersServiceServer() {}
 
@@ -116,6 +130,24 @@ func _TravelersService_GetPrice_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TravelersService_RequestDriver_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Direction)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TravelersServiceServer).RequestDriver(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TravelersService.TravelersService/RequestDriver",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TravelersServiceServer).RequestDriver(ctx, req.(*Direction))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TravelersService_ServiceDesc is the grpc.ServiceDesc for TravelersService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var TravelersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPrice",
 			Handler:    _TravelersService_GetPrice_Handler,
+		},
+		{
+			MethodName: "RequestDriver",
+			Handler:    _TravelersService_RequestDriver_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
