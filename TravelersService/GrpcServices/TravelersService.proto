@@ -7,7 +7,7 @@ service TravelersService {
 }
 
 message GetNearbyDriversResponse {
-  repeated driverLocation user = 1;
+  repeated driverLocation driver = 1;
 }
 
 message location {
