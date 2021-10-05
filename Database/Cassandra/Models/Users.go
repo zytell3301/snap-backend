@@ -56,6 +56,8 @@ func (u User) NewUser(user User) error {
 		return err
 	}
 
+	batch := Users.Connection.NewBatch(gocql.LoggedBatch)
+
 	usr["id"] = user.Id.String()
 	usr["balance"] = 0
 	usr["phone"] = user.Phone
@@ -63,7 +65,7 @@ func (u User) NewUser(user User) error {
 	usr["driver_details"] = user.Driver_details
 	usr["created_at"] = time.Now()
 
-	batch := Users.Connection.NewBatch(gocql.LoggedBatch)
+	Users.NewRecord(usr, batch)
 
 	userPkPhone := map[string]interface{}{}
 	userPkPhone["phone"] = usr["phone"]
