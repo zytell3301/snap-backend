@@ -5,6 +5,7 @@ option go_package = "./GrpcServices";
 service TravelersService {
   rpc GetNearbyDrivers(location) returns (GetNearbyDriversResponse);
   rpc GetPrice(direction) returns (price);
+  rpc RequestDriver(direction) returns (driver);
 }
 
 message GetNearbyDriversResponse {
@@ -31,9 +32,10 @@ message driverLocation {
 }
 
 message driver {
-  string name = 1;
-  string lastname = 2;
-  string vehicle_no = 3;
-  uint32 balance = 4;
-  string profile_pic = 5;
+  string id = 1;
+  string name = 2;
+  string lastname = 3;
+  string vehicle_no = 4;
+  uint32 balance = 5;
+  string profile_pic = 6;
 }
