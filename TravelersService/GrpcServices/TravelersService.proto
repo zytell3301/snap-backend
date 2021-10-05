@@ -4,10 +4,20 @@ option go_package = "./GrpcServices";
 
 service TravelersService {
   rpc GetNearbyDrivers(location) returns (GetNearbyDriversResponse);
+  rpc GetPrice(direction) returns (price);
 }
 
 message GetNearbyDriversResponse {
   repeated driverLocation driver = 1;
+}
+
+message direction {
+  location origin = 1;
+  location destination = 2;
+}
+
+message price {
+  int32 price = 1;
 }
 
 message location {
