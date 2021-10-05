@@ -6,6 +6,7 @@ import (
 	"snap/Database/Redis"
 	"snap/Database/Uuid"
 	"snap/DriversService"
+	"snap/Socket"
 )
 
 func initiatePackages() {
@@ -14,4 +15,5 @@ func initiatePackages() {
 	Keyspaces.InitiateKeyspaces()
 	go DriversService.InitiateGrpcServices()
 	Models.EvaluateCassandraModelsSession()
+	Socket.InitateSocket()
 }
