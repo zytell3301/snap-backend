@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"github.com/go-redis/redis/v8"
-	"snap/Database/Cassandra/Models"
 	"snap/Database/Redis"
 	"snap/TravelersService/GrpcServices"
 )
@@ -26,17 +25,19 @@ func (TravelersService) GetNearbyDrivers(ctx context.Context, location *GrpcServ
 		return &GrpcServices.GetNearbyDriversResponse{}, errors.New("no driver found")
 	}
 
-	var drivers []Models.User
+	var drivers []*GrpcServices.DriverLocation
 
 	for _, driverLocation := range driversLocation {
-		driver, err := Models.Users.GetDriverDetails(map[string]interface{}{"id": driverLocation.Name})
-		switch err != nil {
-		case false:
-			drivers = append(drivers, driver)
-		}
+		drivers = append(drivers, &GrpcServices.DriverLocation{
+			Id: driverLocation.Name,
+			Location: &GrpcServices.Location{
+				X: driverLocation.Latitude,
+				Y: driverLocation.Longitude,
+			},
+		})
 	}
 
-	return &GrpcServices.GetNearbyDriversResponse{}, nil
+	return &GrpcServices.GetNearbyDriversResponse{Driver: drivers}, nil
 }
 
 func getNearbyDrivers(ctx context.Context, location *GrpcServices.Location) ([]redis.GeoLocation, error) {
