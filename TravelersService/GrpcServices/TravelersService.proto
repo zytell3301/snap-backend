@@ -1,0 +1,41 @@
+syntax = "proto3";
+package TravelersService;
+option go_package = "./GrpcServices";
+
+service TravelersService {
+  rpc GetNearbyDrivers(location) returns (GetNearbyDriversResponse);
+  rpc GetPrice(direction) returns (price);
+  rpc RequestDriver(direction) returns (driver);
+}
+
+message GetNearbyDriversResponse {
+  repeated driverLocation driver = 1;
+}
+
+message direction {
+  location origin = 1;
+  location destination = 2;
+}
+
+message price {
+  int32 price = 1;
+}
+
+message location {
+  double x = 1;
+  double y = 2;
+}
+
+message driverLocation {
+  string id = 1;
+  location location = 2;
+}
+
+message driver {
+  string id = 1;
+  string name = 2;
+  string lastname = 3;
+  string vehicle_no = 4;
+  uint32 balance = 5;
+  string profile_pic = 6;
+}

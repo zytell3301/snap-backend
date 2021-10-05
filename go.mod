@@ -11,10 +11,13 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/kataras/iris/v12 v12.2.0-alpha2.0.20210717090056-b2cc3a287149
 	github.com/klauspost/compress v1.13.4 // indirect
+	github.com/nats-io/nats-server/v2 v2.6.1 // indirect
+	github.com/nats-io/nats.go v1.12.3 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/spf13/viper v1.3.2
 	github.com/stretchr/testify v1.7.0 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	google.golang.org/grpc v1.40.0
 	google.golang.org/protobuf v1.27.1
 )

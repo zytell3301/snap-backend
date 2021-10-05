@@ -2,7 +2,9 @@ package Models
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gocql/gocql"
+	"golang.org/x/crypto/bcrypt"
 	"snap/Database/Cassandra"
 )
 
@@ -35,4 +37,19 @@ func (t Token) GetToken(communicationToken string) (token *Token, err error) {
 	statement.Scan(&token.Communication_token, &token.User_id)
 
 	return
+}
+
+func (t Token) GenerateToken(userId gocql.UUID) string {
+	token, _ := bcrypt.GenerateFromPassword([]byte(userId.String()), bcrypt.DefaultCost)
+	batch := t.Connection.NewBatch(gocql.LoggedBatch)
+	t.NewRecord(map[string]interface{}{"user_id": userId.String(), "communication_token": string(token)}, batch)
+	err := t.Connection.ExecuteBatch(batch)
+
+	switch err != nil {
+	case true:
+		fmt.Printf("An error occurred while inserting new token. Error: %v", err)
+		return ""
+	}
+
+	return string(token)
 }
