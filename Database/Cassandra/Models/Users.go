@@ -28,13 +28,13 @@ var Users = User{
 	TableMetaData: Cassandra.TableMetaData{
 		Table: "users",
 		Columns: map[string]struct{}{
-			"Id":             {},
-			"Phone":          {},
-			"Balance":        {},
-			"Driver_details": {},
-			"Created_at":     {},
+			"id":             {},
+			"phone":          {},
+			"balance":        {},
+			"driver_details": {},
+			"created_at":     {},
 		},
-		Pk:       map[string]struct{}{"Id": {}},
+		Pk:       map[string]struct{}{"id": {}},
 		Keyspace: "snap",
 	},
 }
